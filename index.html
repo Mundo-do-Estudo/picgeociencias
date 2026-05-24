@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>PIC Geociências | Cidades Sustentáveis da Holanda - Apresentação</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+            background: #0a1f12;
+        }
+
+        /* ========== TELA DE CAPA (FULLSCREEN) ========== */
+        .cover-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0a2a1a 0%, #0d3d24 50%, #0a2a1a 100%);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.8s ease, visibility 0.8s;
+            overflow: hidden;
+        }
+        .cover-screen.hide {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+        .cover-bg-pattern {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" opacity="0.08"><path fill="none" stroke="%23aaffcc" stroke-width="1" d="M20 20 L80 20 M20 40 L80 40 M20 60 L80 60 M20 80 L80 80 M40 20 L40 80 M60 20 L60 80 M80 20 L80 80"/><circle cx="50" cy="50" r="8" stroke="%23aaffcc" fill="none"/></svg>');
+            background-repeat: repeat;
+            background-size: 40px;
+        }
+        .cover-card {
+            background: rgba(255, 255, 245, 0.96);
+            border-radius: 2rem;
+            max-width: 750px;
+            width: 85%;
+            padding: 2.5rem 2rem;
+            text-align: center;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+            z-index: 2;
+            backdrop-filter: blur(2px);
+            border: 1px solid rgba(200,230,180,0.6);
+        }
+        .cover-img-header {
+            width: 130px;
+            height: 130px;
+            margin: 0 auto 1.2rem;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 4px solid #2e8b57;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            background: #e9f3e3;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .cover-img-header img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .cover-title {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(120deg, #1e5631, #2c8f66);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: -1px;
+        }
+        .cover-sub {
+            font-size: 1.1rem;
+            color: #3a6747;
+            margin: 0.8rem 0;
+        }
+        .students-info {
+            background: #eef3e9;
+            border-radius: 1.5rem;
+            padding: 0.8rem;
+            margin: 1.2rem 0;
+            font-weight: 500;
+        }
+        .start-btn {
+            background: #1f543d;
+            border: none;
+            padding: 1rem 2.2rem;
+            font-size: 1.2rem;
+            font-weight: 700;
+            border-radius: 60px;
+            color: white;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: 0.25s;
+            margin-top: 0.5rem;
+        }
+        .start-btn:hover {
+            background: #2e7d64;
+            transform: scale(1.02);
+            gap: 16px;
+        }
+
+        /* ========== APRESENTAÇÃO FULLSCREEN ========== */
+        .presentation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #f5faf0;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.6s ease;
+            overflow: hidden;
+        }
+        .presentation.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        .presentation:fullscreen {
+            background: #f5faf0;
+        }
+        .presentation:-webkit-full-screen {
+            background: #f5faf0;
+        }
+        .presentation:-moz-full-screen {
+            background: #f5faf0;
+        }
+        
+        .slides-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+        .slides-track {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            will-change: transform;
+        }
+        .slide {
+            flex: 0 0 100%;
+            height: 100%;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            padding: 2rem 3rem;
+            position: relative;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        /* Camada escura para contraste */
+        .slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.15);
+            z-index: 0;
+        }
+        .slide > * {
+            position: relative;
+            z-index: 1;
+        }
+        .slide::-webkit-scrollbar {
+            width: 6px;
+        }
+        .slide::-webkit-scrollbar-track {
+            background: #e2e8da;
+        }
+        .slide::-webkit-scrollbar-thumb {
+            background: #3b8b5a;
+            border-radius: 10px;
+        }
+
+        /* Slide de introdução da cidade - estilo especial centralizado */
+        .intro-slide {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        .intro-slide::before {
+            background: rgba(0, 0, 0, 0.55);
+        }
+        .intro-content {
+            max-width: 800px;
+            padding: 2.5rem;
+            background: rgba(255, 255, 245, 0.95);
+            backdrop-filter: blur(8px);
+            border-radius: 3rem;
+            box-shadow: 0 30px 50px rgba(0,0,0,0.3);
+            border: 2px solid rgba(60,150,90,0.5);
+            animation: fadeInUp 0.8s ease;
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .intro-city-name {
+            font-size: 4rem;
+            font-weight: 800;
+            background: linear-gradient(120deg, #1e5631, #2c8f66);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            margin-bottom: 1rem;
+            letter-spacing: -1px;
+        }
+        .intro-curiosity {
+            font-size: 1.3rem;
+            color: #2c5a3a;
+            line-height: 1.5;
+            margin-top: 1rem;
+            padding: 1rem;
+            background: #eef5ea;
+            border-radius: 2rem;
+            display: inline-block;
+        }
+        .intro-curiosity i {
+            color: #e67e22;
+            margin-right: 10px;
+        }
+        .intro-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            color: #2e8b57;
+        }
+        
+        /* Botão de áudio */
+        .audio-btn {
+            background: linear-gradient(135deg, #1f543d, #2e7d64);
+            border: none;
+            padding: 0.8rem 2rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 60px;
+            color: white;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: 0.25s;
+            margin-top: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        .audio-btn:hover {
+            transform: scale(1.05);
+            background: linear-gradient(135deg, #2e7d64, #3ba372);
+            gap: 15px;
+        }
+        .audio-btn.playing {
+            background: linear-gradient(135deg, #c0392b, #e67e22);
+            animation: pulse 1s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+            100% { transform: scale(1); }
+        }
+        
+        /* Indicador de reprodução */
+        .audio-status {
+            margin-top: 0.5rem;
+            font-size: 0.8rem;
+            color: #6c8b6e;
+        }
+
+        /* Slide de conteúdo normal */
+        .slide-content {
+            /* max-width: 1100px; */
+            /* margin: 0 auto; */
+            margin-left: 5px;
+            background: rgba(255, 255, 245, 0.92);
+            backdrop-filter: blur(4px);
+            border-radius: 2rem;
+            padding: 1rem 1.8rem;
+            box-shadow: 0 12px 28px rgba(0,0,0,0.1);
+            border: 1px solid rgba(80,120,70,0.3);
+        }
+        .city-label {
+            display: inline-block;
+            background: #2c7a4d;
+            color: white;
+            padding: 0.2rem 1.2rem;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+        }
+        .slide-title {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #1b4d2e;
+            border-left: 5px solid #3ba372;
+            padding-left: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.2rem;
+            margin-top: 0.8rem;
+        }
+        .info-item {
+            background: #ffffffdd;
+            border-radius: 1.2rem;
+            padding: 1rem 1.2rem;
+            transition: 0.2s;
+            border-bottom: 2px solid #cfe0ca;
+        }
+        .info-item i {
+            color: #2e7d64;
+            width: 28px;
+            font-size: 1.2rem;
+            margin-right: 8px;
+        }
+        .info-item strong {
+            font-size: 1rem;
+            color: #235b3e;
+            display: inline-block;
+            margin-bottom: 4px;
+        }
+        .info-item p {
+            font-size: 0.92rem;
+            line-height: 1.4;
+            color: #2c3e2a;
+            margin-top: 4px;
+        }
+
+        /* navegação */
+        .nav-controls {
+            position: fixed;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1.5rem;
+            z-index: 100;
+            background: rgba(30,40,25,0.85);
+            backdrop-filter: blur(12px);
+            padding: 0.7rem 2rem;
+            border-radius: 80px;
+            width: fit-content;
+        }
+        .nav-btn {
+            background: white;
+            width: 48px;
+            height: 48px;
+            border-radius: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            cursor: pointer;
+            transition: 0.2s;
+            color: #1f543d;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            border: none;
+        }
+        .nav-btn:hover {
+            background: #2c7a4d;
+            color: white;
+            transform: scale(1.05);
+        }
+        .slide-counter {
+            background: #1f2e1a;
+            padding: 0.4rem 1.2rem;
+            border-radius: 40px;
+            color: white;
+            font-weight: 600;
+            font-size: 0.9rem;
+            letter-spacing: 0.5px;
+        }
+        .progress-dots {
+            display: flex;
+            gap: 12px;
+            position: fixed;
+            top: 20px;
+            right: 30px;
+            z-index: 100;
+        }
+        .progress-dot {
+            width: 10px;
+            height: 10px;
+            background: rgba(100,130,80,0.6);
+            border-radius: 20px;
+            transition: 0.2s;
+            cursor: pointer;
+        }
+        .progress-dot.active {
+            background: #2e8b57;
+            width: 28px;
+        }
+        
+        /* Botão SAIR */
+        .exit-fullscreen-btn {
+            position: fixed;
+            bottom: 25px;
+            left: 25px;
+            background: rgba(30,40,25,0.85);
+            backdrop-filter: blur(12px);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.2s;
+            font-family: 'Inter', sans-serif;
+        }
+        .exit-fullscreen-btn:hover {
+            background: #c0392b;
+            transform: scale(1.02);
+        }
+        
+        @media (max-width: 750px) {
+            .slide { padding: 1rem; }
+            .slide-content { padding: 1rem; }
+            .slide-title { font-size: 1.4rem; }
+            .info-grid { grid-template-columns: 1fr; }
+            .intro-city-name { font-size: 2.2rem; }
+            .intro-curiosity { font-size: 1rem; }
+            .audio-btn { padding: 0.5rem 1.2rem; font-size: 0.9rem; }
+            .exit-fullscreen-btn { bottom: 15px; left: 15px; padding: 0.4rem 1rem; font-size: 0.75rem; }
+            .nav-controls { bottom: 15px; padding: 0.5rem 1.2rem; gap: 1rem; }
+            .nav-btn { width: 40px; height: 40px; }
+        }
+        footer-note {
+            font-size: 0.7rem;
+            text-align: center;
+            margin-top: 1.2rem;
+            opacity: 0.7;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+<!-- CAPA FULLSCREEN -->
+<div class="cover-screen" id="coverScreen">
+    <div class="cover-bg-pattern"></div>
+    <div class="cover-card">
+        <div style="width: 200px; height: 200px;" class="cover-img-header" id="coverImgContainer">
+            <img id="coverImage" src="img/logo.jfif" alt="logo peq" style="object-fit:cover;" onerror="this.src='https://images.unsplash.com/photo-1568392829325-960e7041754a?w=200&h=200&fit=crop'">
+        </div>
+        <div class="cover-title">🌱 PIC de Geociências</div>
+        <div class="cover-sub">Cidades Sustentáveis da Holanda</div>
+        <div class="students-info">
+            <i class="fas fa-users"></i> Murilo · Mikael · Pedro · Arthur S.<br>
+            <i class="fas fa-chalkboard"></i> Professores: Paulo e Renan
+        </div>
+        <button class="start-btn" id="startPresentationBtn">
+            <i class="fas fa-expand"></i> Iniciar Apresentação (Tela Cheia)
+        </button>
+    </div>
+</div>
+
+<!-- APRESENTAÇÃO PRINCIPAL FULLSCREEN -->
+<div class="presentation" id="presentation">
+    <div class="progress-dots" id="progressDots"></div>
+    <div class="slides-container">
+        <div class="slides-track" id="slidesTrack">
+            <!-- Os slides serão gerados dinamicamente -->
+        </div>
+    </div>
+    <div class="nav-controls">
+        <button class="nav-btn" id="prevSlideBtn"><i class="fas fa-chevron-left"></i></button>
+        <div class="slide-counter" id="slideCounter">Slide 1 / 16</div>
+        <button class="nav-btn" id="nextSlideBtn"><i class="fas fa-chevron-right"></i></button>
+    </div>
+    <button class="exit-fullscreen-btn" id="exitFullscreenBtn">
+        <i class="fas fa-times-circle"></i> Sair da Apresentação (ESC)
+    </button>
+</div>
+
+<script>
+    // ===================== CONFIGURAÇÃO DE ÁUDIO =====================
+    // Para cada cidade, defina o caminho do arquivo de áudio na pasta "audio"
+    // Coloque os arquivos de áudio na pasta: audio/amsterda.mp3, audio/rotterdam.mp3, etc.
+    const cityAudioFiles = {
+        "Amsterdã": "audio/murilo.ogg",
+        "Rotterdam": "audio/mikael.ogg",
+        "Utrecht": "audio/pedro.ogg",
+        "Haia (Den Haag)": "audio/arthur.ogg"
+    };
+    
+    // Objeto para controlar o player de áudio atual
+    let currentAudio = null;
+    let currentPlayingCity = null;
+
+    // Função para tocar/parar áudio
+    function toggleAudio(cityName, buttonElement, statusSpanElement) {
+        const audioPath = cityAudioFiles[cityName];
+        
+        // Se não houver áudio configurado
+        if (!audioPath) {
+            if (statusSpanElement) {
+                statusSpanElement.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Áudio não disponível';
+                setTimeout(() => {
+                    if (statusSpanElement) statusSpanElement.innerHTML = '';
+                }, 2000);
+            }
+            return;
+        }
+        
+        // Se já estiver tocando a mesma cidade, para
+        if (currentAudio && currentPlayingCity === cityName && !currentAudio.paused) {
+            currentAudio.pause();
+            currentAudio.currentTime = 0;
+            currentAudio = null;
+            currentPlayingCity = null;
+            if (buttonElement) {
+                buttonElement.classList.remove('playing');
+                buttonElement.innerHTML = '<i class="fas fa-play"></i> Ouvir sobre';
+            }
+            if (statusSpanElement) statusSpanElement.innerHTML = '';
+            return;
+        }
+        
+        // Para qualquer áudio que esteja tocando
+        if (currentAudio) {
+            currentAudio.pause();
+            currentAudio.currentTime = 0;
+            // Resetar botão anterior
+            const prevBtn = document.querySelector(`.audio-btn[data-city="${currentPlayingCity}"]`);
+            if (prevBtn) {
+                prevBtn.classList.remove('playing');
+                prevBtn.innerHTML = '<i class="fas fa-play"></i> Ouvir sobre';
+            }
+        }
+        
+        // Criar novo áudio
+        const audio = new Audio(audioPath);
+        currentAudio = audio;
+        currentPlayingCity = cityName;
+        
+        // Configurar eventos
+        audio.onplay = () => {
+            if (buttonElement) {
+                buttonElement.classList.add('playing');
+                buttonElement.innerHTML = '<i class="fas fa-stop"></i> Parar';
+            }
+            if (statusSpanElement) statusSpanElement.innerHTML = '<i class="fas fa-volume-up"></i> Reproduzindo...';
+        };
+        
+        audio.onended = () => {
+            if (buttonElement) {
+                buttonElement.classList.remove('playing');
+                buttonElement.innerHTML = '<i class="fas fa-play"></i> Ouvir sobre';
+            }
+            if (statusSpanElement) statusSpanElement.innerHTML = '<i class="fas fa-check"></i> Finalizado';
+            setTimeout(() => {
+                if (statusSpanElement) statusSpanElement.innerHTML = '';
+            }, 2000);
+            currentAudio = null;
+            currentPlayingCity = null;
+        };
+        
+        audio.onerror = (e) => {
+            console.error("Erro ao carregar áudio:", audioPath);
+            if (statusSpanElement) {
+                statusSpanElement.innerHTML = '<i class="fas fa-exclamation-circle"></i> Erro no áudio';
+                setTimeout(() => {
+                    if (statusSpanElement) statusSpanElement.innerHTML = '';
+                }, 3000);
+            }
+            if (buttonElement) {
+                buttonElement.classList.remove('playing');
+                buttonElement.innerHTML = '<i class="fas fa-play"></i> Ouvir sobre';
+            }
+            currentAudio = null;
+            currentPlayingCity = null;
+        };
+        
+        audio.play().catch(err => {
+            console.error("Erro ao reproduzir:", err);
+            if (statusSpanElement) {
+                statusSpanElement.innerHTML = '<i class="fas fa-ban"></i> Clique permitir áudio';
+                setTimeout(() => {
+                    if (statusSpanElement) statusSpanElement.innerHTML = '';
+                }, 2000);
+            }
+        });
+        
+        if (buttonElement) {
+            buttonElement.setAttribute('data-city', cityName);
+        }
+    }
+
+    // ===================== CONFIGURAÇÃO DE IMAGENS =====================
+    const cityImages = {
+        "Amsterdã": [
+            "img/murilo.png",
+            "img/murilo2.png",
+            "img/murilo3.png"
+        ],
+        "Rotterdam": [
+            "img/roterdam1.jpg",
+            "img/roterdam2.jpg",
+            "img/roterdam3.jpg"
+        ],
+        "Utrecht": [
+            "img/utrecth1.png",
+            "img/pedro2.png",
+            "img/pedro3.png"
+        ],
+        "Haia (Den Haag)": [
+            "img/haia1.jpg",
+            "img/haia2.jpg",
+            "img/haia3.webp"
+        ]
+    };
+
+    // Curiosidades para cada cidade
+    const cityCuriosities = {
+        "Amsterdã": "🚲 Possui mais de 880 mil bicicletas para uma população de 930 mil habitantes! Existem até pontes exclusivas para ciclistas.",
+        "Rotterdam": "🏗️ Abriga o maior porto da Europa e tem o primeiro parque flutuante do mundo feito com plástico reciclado dos rios.",
+        "Utrecht": "🚲 Tem o maior estacionamento de bicicletas do mundo com capacidade para 12.500 bikes, além de ser referência em telhados verdes para abelhas.",
+        "Haia (Den Haag)": "🕊️ É a cidade da paz e da justiça internacional, sede da Corte Internacional de Justiça e líder em neutralidade carbônica."
+    };
+
+    // Dados de conteúdo das cidades
+    const citiesContent = {
+        "Amsterdã": [
+            { theme: "🌍 Dados Gerais & Indicadores Sociais",
+              content: [
+                  { label: "📍 Localização", text: "Holanda do Norte, região metropolitana de Randstad" },
+                  { label: "👥 População", text: "930.000 habitantes" },
+                  { label: "📊 PIB per capita", text: "€68.500 · economia forte e inovadora" },
+                  { label: "🎓 Escolaridade", text: "Alfabetização 98,7% · 52% ensino superior" },
+                  { label: "❤️ Saúde", text: "Mortalidade infantil 3,2‰ · Expectativa de vida 82,6 anos" },
+                 
+              ] },
+            { theme: "🏡 Moradia, Energia & Água",
+              content: [
+                  { label: "🏠 Formas de moradia", text: "Apartamentos eficientes, tijolos ecológicos, 35% moradias sociais com certificado verde" },
+                  { label: "⚡ Fontes de energia", text: "60% aquecimento distrital sustentável, parques solares flutuantes" },
+                  { label: "💧 Uso consciente da água", text: "115 L/pessoa/dia · reaproveitamento de água da chuva em edifícios" },
+                  { label: "☀️ Energias renováveis", text: "Energia eólica offshore + solar, meta 100% renovável até 2040" }
+              ] },
+            { theme: "🚲 Mobilidade, Verde & Políticas Públicas",
+              content: [
+                  { label: "🚲 Mobilidade urbana", text: "767 km de ciclovias · 60% deslocamentos de bike · bondes elétricos" },
+                  { label: "🌳 Áreas verdes", text: "30% do território · Vondelpark · telhados verdes obrigatórios" },
+                  { label: "♻️ Resíduos sólidos", text: "Reciclagem 55% · coleta seletiva porta a porta" },
+                  { label: "🚌 Transporte não poluente", text: "Subsídio bikes elétricas · frota de ônibus 100% elétrica até 2025" },
+                  { label: "📜 Projetos ambientais", text: "Amsterdam Circulair 2050 · portas de reciclagem inteligentes" }
+              ] }
+        ],
+        "Rotterdam": [
+            { theme: "📈 Economia, População & Indicadores",
+              content: [
+                  { label: "📍 Localização", text: "Holanda do Sul · maior porto da Europa" },
+                  { label: "👥 População", text: "670.000 habitantes" },
+                  { label: "📊 PIB per capita", text: "€60.100 (setor logístico e energético)" },
+                  { label: "🎓 Escolaridade", text: "98,2% alfabetização · 48% ensino superior" },
+                  { label: "❤️ Saúde", text: "Mortalidade infantil 3,5‰ · expectativa 81,9 anos" },
+                 
+              ] },
+            { theme: "🏗️ Habitação Sustentável & Energia",
+              content: [
+                  { label: "🏠 Formas de moradia", text: "Casas flutuantes, waterpleinen, bairros modulares sustentáveis" },
+                  { label: "⚡ Fontes de energia", text: "Hidrogênio verde no Porto, usina de biomassa, solar em telhados" },
+                  { label: "💧 Gestão da água", text: "Praças que armazenam água da chuva, sistema esponja urbana" },
+                  { label: "☀️ Renováveis", text: "Maior parque eólico offshore da Holanda, meta redução CO2 55%" }
+              ] },
+            { theme: "🌿 Inovação Verde e Políticas Climáticas",
+              content: [
+                  { label: "🚲 Mobilidade", text: "Ciclovias segregadas, metrô, carsharing elétrico" },
+                  { label: "🌳 Áreas verdes", text: "Dakpark (parque sobre túnel), jardins verticais, 25% verde" },
+                  { label: "♻️ Resíduos", text: "Waste-to-Energy, coleta subterrânea, reciclagem de plástico dos rios" },
+                  { label: "🚍 Transporte limpo", text: "Ônibus elétricos, porto com energia limpa" },
+                  { label: "📜 Políticas", text: "Rotterdam Climate Initiative · porto Net Zero · Resilient Delta" }
+              ] }
+        ],
+        "Utrecht": [
+            { theme: "📚 Educação, Saúde e Qualidade de Vida",
+              content: [
+                  { label: "📍 Localização", text: "Província de Utrecht, coração da Holanda" },
+                  { label: "👥 População", text: "370.000 habitantes" },
+                  { label: "📊 PIB per capita", text: "€64.200 (centro de serviços e tecnologia)" },
+                  { label: "🎓 Escolaridade", text: "99% alfabetização · 56% nível superior" },
+                  { label: "❤️ Saúde", text: "Mortalidade infantil 2,9‰ · expectativa de vida 83,2 anos" },
+                 
+              ] },
+            { theme: "🏡 Moradia Passiva e Sustentabilidade Hídrica",
+              content: [
+                  { label: "🏠 Moradia", text: "Passivhaus, moradias compartilhadas sustentáveis, certificação BREEAM" },
+                  { label: "⚡ Energia", text: "Aquecimento geotérmico, biogás, painéis solares em prédios históricos" },
+                  { label: "💧 Água", text: "Campanhas Reduza Consumo, reaproveitamento em fontes urbanas" },
+                  { label: "☀️ Renováveis", text: "Meta 100% renovável 2035; solar em telhados logísticos" }
+              ] },
+            { theme: "🚴 Mobilidade Referência Mundial & Ecologia",
+              content: [
+                  { label: "🚲 Mobilidade", text: "Maior estacionamento de bicicletas do mundo (12.500 vagas), ônibus elétricos" },
+                  { label: "🌳 Áreas verdes", text: "Jardim botânico, telhados verdes em abrigos (abelhas), parques lineares" },
+                  { label: "♻️ Resíduos", text: "Lixeiras inteligentes, taxa de desvio de aterro 72%" },
+                  { label: "🚌 Incentivo", text: "Voucher para bikes, pedágio urbano para poluentes" },
+                  { label: "📜 Projetos", text: "Utrechtse Energie, proibição anúncios combustíveis fósseis" }
+              ] }
+        ],
+        "Haia (Den Haag)": [
+            { theme: "⚖️ Indicadores Sociais e Economia",
+              content: [
+                  { label: "📍 Localização", text: "Holanda do Sul, costa do Mar do Norte" },
+                  { label: "👥 População", text: "560.000 habitantes" },
+                  { label: "📊 PIB per capita", text: "€59.700 (sede governo e organizações internacionais)" },
+                  { label: "🎓 Escolaridade", text: "98,9% alfabetização · 51% superior" },
+                  { label: "❤️ Saúde", text: "Mortalidade infantil 3,1‰ · expectativa 82,1 anos" },
+                 
+              ] },
+            { theme: "🏘️ Habitação Ecológica & Fontes Limpas",
+              content: [
+                  { label: "🏠 Moradia", text: "Bairros ecológicos Wateringse Veld, certificação energética A obrigatória" },
+                  { label: "⚡ Energia", text: "Protótipo de energia das ondas, aquecimento sustentável em bairros" },
+                  { label: "💧 Água", text: "Medição inteligente de consumo, campanhas em hotéis e escritórios" },
+                  { label: "☀️ Renováveis", text: "Parques eólicos no Mar do Norte + cooperativas solares" }
+              ] },
+            { theme: "🕊️ Neutralidade Carbono e Projetos Verdes",
+              content: [
+                  { label: "🚲 Mobilidade", text: "Bondes elétricos, 400 km de ciclovias, zona de baixa emissão" },
+                  { label: "🌳 Áreas verdes", text: "Dunas costeiras protegidas, Haagse Bos, 28% áreas verdes" },
+                  { label: "♻️ Resíduos", text: "Lixeiras subterrâneas, Repair Café para consertos" },
+                  { label: "🚍 Transporte", text: "Bicicletas compartilhadas, subsídio veículos elétricos" },
+                  { label: "📜 Políticas", text: "The Hague Climate Neutral 2030, fundo inovação verde" }
+              ] }
+        ]
+    };
+
+    const cityNames = ["Amsterdã", "Rotterdam", "Utrecht", "Haia (Den Haag)"];
+    
+    // Construir array de slides: [Intro1, slide1, slide2, slide3, Intro2, slide1...]
+    let slidesData = [];
+    cityNames.forEach(city => {
+        // Slide de introdução da cidade (com botão de áudio)
+        slidesData.push({
+            type: "intro",
+            city: city,
+            curiosity: cityCuriosities[city]
+        });
+        // Slides de conteúdo (3 por cidade)
+        const contentSlides = citiesContent[city];
+        contentSlides.forEach((slide, idx) => {
+            slidesData.push({
+                type: "content",
+                city: city,
+                theme: slide.theme,
+                content: slide.content,
+                slideIndex: idx
+            });
+        });
+    });
+
+    let currentSlide = 0;
+    const totalSlides = slidesData.length;
+    const slidesTrack = document.getElementById('slidesTrack');
+    const progressDots = document.getElementById('progressDots');
+    const slideCounter = document.getElementById('slideCounter');
+    const prevBtn = document.getElementById('prevSlideBtn');
+    const nextBtn = document.getElementById('nextSlideBtn');
+    const presentationDiv = document.getElementById('presentation');
+    const coverScreenDiv = document.getElementById('coverScreen');
+    const startBtnMain = document.getElementById('startPresentationBtn');
+    const exitFullscreenBtn = document.getElementById('exitFullscreenBtn');
+
+    function getImageForSlide(cityName, slideIdx) {
+        if (cityImages[cityName] && cityImages[cityName][slideIdx]) {
+            return cityImages[cityName][slideIdx];
+        }
+        return "https://images.unsplash.com/photo-1568392829325-960e7041754a?w=1200&h=800&fit=crop";
+    }
+
+    function getIconForLabel(label) {
+        const map = {
+            "Localização": "fa-map-marker-alt", "População": "fa-users", "PIB": "fa-chart-line",
+            "Escolaridade": "fa-graduation-cap", "Saúde": "fa-heartbeat", "Mortalidade": "fa-heartbeat",
+            "IDH": "fa-chart-simple", "Moradia": "fa-home", "Energia": "fa-plug",
+            "Água": "fa-tint", "Renováveis": "fa-solar-panel", "Mobilidade": "fa-bus",
+            "Áreas verdes": "fa-tree", "Resíduos": "fa-trash-alt", "Transporte": "fa-bicycle",
+            "Projetos": "fa-file-signature", "Políticas": "fa-file-signature", "Gestão": "fa-tint"
+        };
+        for (let [key, icon] of Object.entries(map)) {
+            if (label.includes(key)) return icon;
+        }
+        return "fa-circle-info";
+    }
+
+    function buildSlides() {
+        slidesTrack.innerHTML = '';
+        slidesData.forEach((slide, globalIdx) => {
+            const slideDiv = document.createElement('div');
+            slideDiv.className = 'slide';
+            
+            if (slide.type === "intro") {
+                slideDiv.classList.add('intro-slide');
+                const bgImg = getImageForSlide(slide.city, 0);
+                slideDiv.style.backgroundImage = `url('${bgImg}')`;
+                slideDiv.style.backgroundSize = "cover";
+                slideDiv.style.backgroundPosition = "center";
+                
+                // Criar IDs únicos para botão e status
+                const btnId = `audio-btn-${globalIdx}`;
+                const statusId = `audio-status-${globalIdx}`;
+                
+                slideDiv.innerHTML = `
+                    <div class="intro-content">
+                        <div class="intro-icon"><i class="fas fa-city"></i></div>
+                        <div class="intro-city-name">${slide.city}</div>
+                        <div class="intro-curiosity">
+                            <i class="fas fa-lightbulb"></i> Curiosidade<br>
+                            ${slide.curiosity}
+                        </div>
+                        <button class="audio-btn" id="${btnId}" data-city="${slide.city}">
+                            <i class="fas fa-play"></i> Ouvir sobre
+                        </button>
+                        <div class="audio-status" id="${statusId}"></div>
+                        
+                    </div>
+                `;
+                
+                // Adicionar evento de áudio após inserir no DOM
+                setTimeout(() => {
+                    const btn = document.getElementById(btnId);
+                    const statusSpan = document.getElementById(statusId);
+                    if (btn) {
+                        btn.addEventListener('click', (e) => {
+                            e.stopPropagation();
+                            toggleAudio(slide.city, btn, statusSpan);
+                        });
+                    }
+                }, 10);
+            } else {
+                const imgUrl = getImageForSlide(slide.city, slide.slideIndex);
+                slideDiv.style.backgroundImage = `url('${imgUrl}')`;
+                slideDiv.style.backgroundSize = "cover";
+                slideDiv.style.backgroundPosition = "center";
+                
+                let itemsHtml = '';
+                slide.content.forEach(item => {
+                    itemsHtml += `
+                        <div class="info-item">
+                            <i class="fas ${getIconForLabel(item.label)}"></i> 
+                            <strong>${item.label}</strong>
+                            <p>${item.text}</p>
+                        </div>
+                    `;
+                });
+                
+                slideDiv.innerHTML = `
+                    <div class="slide-content">
+                        <div class="city-label">🏙️ ${slide.city}</div>
+                        <div class="slide-title">${slide.theme}</div>
+                        <div class="info-grid">
+                            ${itemsHtml}
+                        </div>
+                        <footer-note><i class="fas fa-leaf"></i> Fonte: Dados sustentáveis Holanda 2025 · PIC Geociências</footer-note>
+                    </div>
+                `;
+            }
+            slidesTrack.appendChild(slideDiv);
+        });
+        updateProgressDots();
+        updateSlideTransform();
+        updateCounter();
+    }
+
+    function updateProgressDots() {
+        progressDots.innerHTML = '';
+        for (let i = 0; i < totalSlides; i++) {
+            const dot = document.createElement('div');
+            dot.classList.add('progress-dot');
+            if (i === currentSlide) dot.classList.add('active');
+            dot.addEventListener('click', () => {
+                currentSlide = i;
+                updateSlideTransform();
+                updateProgressDots();
+                updateCounter();
+            });
+            progressDots.appendChild(dot);
+        }
+    }
+
+    function updateSlideTransform() {
+        slidesTrack.style.transform = `translateX(-${currentSlide * 100}%)`;
+    }
+
+    function updateCounter() {
+        const slide = slidesData[currentSlide];
+        if (slide.type === "intro") {
+            slideCounter.innerText = `✨ ${slide.city} · Introdução ✨`;
+        } else {
+            slideCounter.innerText = `${slide.city} · ${currentSlide+1}/${totalSlides}`;
+        }
+    }
+
+    function nextSlide() {
+        currentSlide = (currentSlide + 1) % totalSlides;
+        updateSlideTransform();
+        updateProgressDots();
+        updateCounter();
+    }
+
+    function prevSlide() {
+        currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+        updateSlideTransform();
+        updateProgressDots();
+        updateCounter();
+    }
+
+    // Funções de tela cheia
+    function enterFullscreen(element) {
+        const elem = element || document.documentElement;
+        if (elem.requestFullscreen) elem.requestFullscreen();
+        else if (elem.webkitRequestFullscreen) elem.webkitRequestFullscreen();
+        else if (elem.msRequestFullscreen) elem.msRequestFullscreen();
+    }
+
+    function exitFullscreen() {
+        if (document.exitFullscreen) document.exitFullscreen();
+        else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+        else if (document.msExitFullscreen) document.msExitFullscreen();
+    }
+
+    function isFullscreen() {
+        return !!(document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement);
+    }
+
+    function exitPresentation() {
+        // Parar áudio ao sair
+        if (currentAudio) {
+            currentAudio.pause();
+            currentAudio = null;
+            currentPlayingCity = null;
+        }
+        if (isFullscreen()) exitFullscreen();
+        presentationDiv.classList.remove('visible');
+        coverScreenDiv.classList.remove('hide');
+        currentSlide = 0;
+        updateSlideTransform();
+        updateProgressDots();
+        updateCounter();
+    }
+
+    function startPresentation() {
+        coverScreenDiv.classList.add('hide');
+        presentationDiv.classList.add('visible');
+        currentSlide = 0;
+        updateSlideTransform();
+        updateProgressDots();
+        updateCounter();
+        setTimeout(() => enterFullscreen(presentationDiv), 100);
+    }
+
+    // Eventos
+    startBtnMain.addEventListener('click', startPresentation);
+    exitFullscreenBtn.addEventListener('click', exitPresentation);
+    prevBtn.addEventListener('click', prevSlide);
+    nextBtn.addEventListener('click', nextSlide);
+    
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+    document.addEventListener('msfullscreenchange', handleFullscreenChange);
+    
+    function handleFullscreenChange() {
+        if (!isFullscreen() && presentationDiv.classList.contains('visible')) {
+            exitPresentation();
+        }
+    }
+    
+    window.addEventListener('keydown', (e) => {
+        if (!presentationDiv.classList.contains('visible')) return;
+        if (e.key === 'ArrowRight') nextSlide();
+        if (e.key === 'ArrowLeft') prevSlide();
+        if (e.key === 'Escape') exitPresentation();
+    });
+
+    buildSlides();
+</script>
+</body>
+</html>
