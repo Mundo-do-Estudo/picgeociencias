@@ -2,10 +2,10 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
     <title>PIC Geociências | Cidades Sustentáveis da Holanda - Apresentação</title>
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- Font Awesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -38,6 +38,20 @@
             transition: opacity 0.8s ease, visibility 0.8s;
             overflow: hidden;
         }
+        /* Imagem de fundo na primeira página (capa) */
+        .cover-screen::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('img/todos.png');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.35;
+            z-index: 0;
+        }
         .cover-screen.hide {
             opacity: 0;
             visibility: hidden;
@@ -50,18 +64,20 @@
             background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" opacity="0.08"><path fill="none" stroke="%23aaffcc" stroke-width="1" d="M20 20 L80 20 M20 40 L80 40 M20 60 L80 60 M20 80 L80 80 M40 20 L40 80 M60 20 L60 80 M80 20 L80 80"/><circle cx="50" cy="50" r="8" stroke="%23aaffcc" fill="none"/></svg>');
             background-repeat: repeat;
             background-size: 40px;
+            z-index: 1;
         }
         .cover-card {
-            background: rgba(255, 255, 245, 0.96);
+            background: rgba(255, 255, 245, 0.093);
             border-radius: 2rem;
             max-width: 750px;
             width: 85%;
             padding: 2.5rem 2rem;
             text-align: center;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.211);
             z-index: 2;
-            backdrop-filter: blur(2px);
+            backdrop-filter: blur(0,1px);
             border: 1px solid rgba(200,230,180,0.6);
+            position: relative;
         }
         .cover-img-header {
             width: 130px;
@@ -182,7 +198,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.45);
+            background: rgba(0, 0, 0, 0.15);
             z-index: 0;
         }
         .slide > * {
@@ -213,12 +229,22 @@
         .intro-content {
             max-width: 800px;
             padding: 2.5rem;
-            background: rgba(255, 255, 245, 0.95);
-            backdrop-filter: blur(8px);
+            background: rgba(255, 255, 245, 0.145);
+            backdrop-filter: blur(0,1px);
             border-radius: 3rem;
             box-shadow: 0 30px 50px rgba(0,0,0,0.3);
             border: 2px solid rgba(60,150,90,0.5);
             animation: fadeInUp 0.8s ease;
+        }
+        /* Estilo especial para o último slide (Holanda) - card mais acima, igual aos slides de conteúdo */
+        .intro-slide.holanda-special {
+            align-items: flex-start;
+            padding-top: 3rem;
+        }
+        .intro-slide.holanda-special .intro-content {
+            margin-top: 2rem;
+            max-width: 800px;
+            width: 90%;
         }
         @keyframes fadeInUp {
             from {
@@ -301,13 +327,12 @@
 
         /* Slide de conteúdo normal */
         .slide-content {
-            max-width: 1100px;
-            margin: 0 auto;
-            background: rgba(255, 255, 245, 0.92);
+            margin-left: 5px;
+            background: rgba(255, 255, 245, 0.478);
             backdrop-filter: blur(4px);
             border-radius: 2rem;
-            padding: 1.8rem 2.2rem;
-            box-shadow: 0 12px 28px rgba(0,0,0,0.1);
+            padding: 1rem 1.8rem;
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.001);
             border: 1px solid rgba(80,120,70,0.3);
         }
         .city-label {
@@ -338,7 +363,7 @@
         .info-item {
             background: #ffffffdd;
             border-radius: 1.2rem;
-            padding: 1rem 1.2rem;
+            padding: 0.5rem 0.8rem;
             transition: 0.2s;
             border-bottom: 2px solid #cfe0ca;
         }
@@ -434,7 +459,7 @@
             bottom: 25px;
             left: 25px;
             background: rgba(30,40,25,0.85);
-            backdrop-filter: blur(12px);
+            backdrop-filter: blur(2px);
             color: white;
             border: none;
             padding: 0.6rem 1.2rem;
@@ -454,18 +479,123 @@
             transform: scale(1.02);
         }
         
+        /* ========== RESPONSIVIDADE PARA MOBILE ========== */
         @media (max-width: 750px) {
-            .slide { padding: 1rem; }
-            .slide-content { padding: 1rem; }
-            .slide-title { font-size: 1.4rem; }
-            .info-grid { grid-template-columns: 1fr; }
-            .intro-city-name { font-size: 2.2rem; }
-            .intro-curiosity { font-size: 1rem; }
-            .audio-btn { padding: 0.5rem 1.2rem; font-size: 0.9rem; }
-            .exit-fullscreen-btn { bottom: 15px; left: 15px; padding: 0.4rem 1rem; font-size: 0.75rem; }
-            .nav-controls { bottom: 15px; padding: 0.5rem 1.2rem; gap: 1rem; }
-            .nav-btn { width: 40px; height: 40px; }
+            .slide { 
+                padding: 1rem; 
+            }
+            .slide-content { 
+                padding: 0.8rem; 
+                margin-left: 0;
+                border-radius: 1.5rem;
+            }
+            .slide-title { 
+                font-size: 1.4rem; 
+                padding-left: 0.7rem;
+                margin-bottom: 1rem;
+            }
+            .info-grid { 
+                grid-template-columns: 1fr; 
+                gap: 0.9rem;
+            }
+            .info-item {
+                padding: 0.5rem 0.7rem;
+            }
+            .info-item strong {
+                font-size: 0.9rem;
+            }
+            .info-item p {
+                font-size: 0.85rem;
+            }
+            .intro-city-name { 
+                font-size: 2.2rem; 
+            }
+            .intro-curiosity { 
+                font-size: 1rem; 
+                padding: 0.7rem;
+            }
+            .intro-content {
+                padding: 1.5rem;
+                max-width: 90%;
+                margin: 0 auto;
+            }
+            .intro-slide.holanda-special {
+                padding-top: 1.5rem;
+            }
+            .intro-slide.holanda-special .intro-content {
+                margin-top: 1rem;
+            }
+            .audio-btn { 
+                padding: 0.5rem 1.2rem; 
+                font-size: 0.9rem; 
+                gap: 8px;
+            }
+            .exit-fullscreen-btn { 
+                bottom: 15px; 
+                left: 15px; 
+                padding: 0.4rem 1rem; 
+                font-size: 0.75rem; 
+            }
+            .nav-controls { 
+                bottom: 15px; 
+                padding: 0.5rem 1.2rem; 
+                gap: 1rem; 
+            }
+            .nav-btn { 
+                width: 40px; 
+                height: 40px; 
+                font-size: 1.1rem;
+            }
+            .progress-dots {
+                top: 12px;
+                right: 16px;
+                gap: 8px;
+            }
+            .progress-dot {
+                width: 8px;
+                height: 8px;
+            }
+            .progress-dot.active {
+                width: 20px;
+            }
+            .slide-counter {
+                font-size: 0.75rem;
+                padding: 0.3rem 1rem;
+            }
+            .city-label {
+                font-size: 0.7rem;
+            }
         }
+
+        @media (max-width: 480px) {
+            .cover-title {
+                font-size: 2.2rem;
+            }
+            .cover-sub {
+                font-size: 0.9rem;
+            }
+            .students-info {
+                font-size: 0.85rem;
+            }
+            .start-btn {
+                padding: 0.7rem 1.5rem;
+                font-size: 1rem;
+            }
+            .intro-icon {
+                font-size: 2.5rem;
+            }
+            .intro-content {
+                padding: 1.2rem;
+            }
+            .slide-content {
+                padding: 0.6rem;
+            }
+            .info-item i {
+                font-size: 1rem;
+                width: 24px;
+            }
+        }
+
         footer-note {
             font-size: 0.7rem;
             text-align: center;
@@ -473,6 +603,7 @@
             opacity: 0.7;
             display: block;
         }
+        
     </style>
 </head>
 <body>
@@ -481,11 +612,11 @@
 <div class="cover-screen" id="coverScreen">
     <div class="cover-bg-pattern"></div>
     <div class="cover-card">
-        <div class="cover-img-header" id="coverImgContainer">
+        <div style="width: 200px; height: 200px;" class="cover-img-header" id="coverImgContainer">
             <img id="coverImage" src="img/logo.jfif" alt="logo Holanda" style="object-fit:cover;" onerror="this.src='https://images.unsplash.com/photo-1568392829325-960e7041754a?w=200&h=200&fit=crop'">
         </div>
-        <div class="cover-title">🌱 PIC de Geociências</div>
-        <div class="cover-sub">Cidades Sustentáveis da Holanda</div>
+        <div style="color: white;" class="cover-title">🌱 PIC de Geociências</div>
+        <div style="color: white;" class="cover-sub">Cidades Sustentáveis da Holanda</div>
         <div class="students-info">
             <i class="fas fa-users"></i> Murilo · Mikael · Pedro · Arthur S.<br>
             <i class="fas fa-chalkboard"></i> Professores: Paulo e Renan
@@ -516,8 +647,6 @@
 
 <script>
     // ===================== CONFIGURAÇÃO DE ÁUDIO =====================
-    // Para cada cidade, defina o caminho do arquivo de áudio na pasta "audio"
-    // Coloque os arquivos de áudio na pasta: audio/amsterda.mp3, audio/rotterdam.mp3, etc.
     const cityAudioFiles = {
         "Amsterdã": "audio/murilo.ogg",
         "Rotterdam": "audio/mikael.ogg",
@@ -525,15 +654,12 @@
         "Haia (Den Haag)": "audio/arthur.ogg"
     };
     
-    // Objeto para controlar o player de áudio atual
     let currentAudio = null;
     let currentPlayingCity = null;
 
-    // Função para tocar/parar áudio
     function toggleAudio(cityName, buttonElement, statusSpanElement) {
         const audioPath = cityAudioFiles[cityName];
         
-        // Se não houver áudio configurado
         if (!audioPath) {
             if (statusSpanElement) {
                 statusSpanElement.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Áudio não disponível';
@@ -544,7 +670,6 @@
             return;
         }
         
-        // Se já estiver tocando a mesma cidade, para
         if (currentAudio && currentPlayingCity === cityName && !currentAudio.paused) {
             currentAudio.pause();
             currentAudio.currentTime = 0;
@@ -558,11 +683,9 @@
             return;
         }
         
-        // Para qualquer áudio que esteja tocando
         if (currentAudio) {
             currentAudio.pause();
             currentAudio.currentTime = 0;
-            // Resetar botão anterior
             const prevBtn = document.querySelector(`.audio-btn[data-city="${currentPlayingCity}"]`);
             if (prevBtn) {
                 prevBtn.classList.remove('playing');
@@ -570,12 +693,10 @@
             }
         }
         
-        // Criar novo áudio
         const audio = new Audio(audioPath);
         currentAudio = audio;
         currentPlayingCity = cityName;
         
-        // Configurar eventos
         audio.onplay = () => {
             if (buttonElement) {
                 buttonElement.classList.add('playing');
@@ -630,29 +751,13 @@
 
     // ===================== CONFIGURAÇÃO DE IMAGENS =====================
     const cityImages = {
-        "Amsterdã": [
-            "/img/murilo.png",
-            "/img/murilo.png",
-            "/img/murilo.png"
-        ],
-        "Rotterdam": [
-            "https://images.unsplash.com/photo-1568572933382-74bde642cfac?w=1200&h=800&fit=crop",
-            "https://images.unsplash.com/photo-1602872031312-1b4032cecda4?w=1200&h=800&fit=crop",
-            "https://images.unsplash.com/photo-1544588234-2b6d7f8733de?w=1200&h=800&fit=crop"
-        ],
-        "Utrecht": [
-            "https://images.unsplash.com/photo-1606070939705-9c4aff42d1b4?w=1200&h=800&fit=crop",
-            "https://images.unsplash.com/photo-1528818955841-4c85cd463c84?w=1200&h=800&fit=crop",
-            "https://images.unsplash.com/photo-1533900298318-6b8da08a523e?w=1200&h=800&fit=crop"
-        ],
-        "Haia (Den Haag)": [
-            "https://images.unsplash.com/photo-1587271328781-8c2b5502b1d2?w=1200&h=800&fit=crop",
-            "https://images.unsplash.com/photo-1598894210773-6c97c6b044ef?w=1200&h=800&fit=crop",
-            "https://images.unsplash.com/photo-1575424908097-d6e056aa4d63?w=1200&h=800&fit=crop"
-        ]
+        "Amsterdã": ["img/murilo.png", "img/murilo2.png", "img/murilo3.png"],
+        "Rotterdam": ["img/mikael1.png", "img/mikael2.png", "img/mikael3.png"],
+        "Utrecht": ["img/utrecth1.png", "img/pedro2.png", "img/pedro3.png"],
+        "Haia (Den Haag)": ["img/artur1.png", "img/artur2.png", "img/artur3.png"],
+        "Holanda (País)": ["img/todos.png"]
     };
 
-    // Curiosidades para cada cidade
     const cityCuriosities = {
         "Amsterdã": "🚲 Possui mais de 880 mil bicicletas para uma população de 930 mil habitantes! Existem até pontes exclusivas para ciclistas.",
         "Rotterdam": "🏗️ Abriga o maior porto da Europa e tem o primeiro parque flutuante do mundo feito com plástico reciclado dos rios.",
@@ -660,136 +765,46 @@
         "Haia (Den Haag)": "🕊️ É a cidade da paz e da justiça internacional, sede da Corte Internacional de Justiça e líder em neutralidade carbônica."
     };
 
-    // Dados de conteúdo das cidades
     const citiesContent = {
         "Amsterdã": [
-            { theme: "🌍 Dados Gerais & Indicadores Sociais",
-              content: [
-                  { label: "📍 Localização", text: "Holanda do Norte, região metropolitana de Randstad" },
-                  { label: "👥 População", text: "930.000 habitantes" },
-                  { label: "📊 PIB per capita", text: "€68.500 · economia forte e inovadora" },
-                  { label: "🎓 Escolaridade", text: "Alfabetização 98,7% · 52% ensino superior" },
-                  { label: "❤️ Saúde", text: "Mortalidade infantil 3,2‰ · Expectativa de vida 82,6 anos" },
-                  { label: "🏆 IDH", text: "0,952 (Muito alto, comparável a Oslo)" }
-              ] },
-            { theme: "🏡 Moradia, Energia & Água",
-              content: [
-                  { label: "🏠 Formas de moradia", text: "Apartamentos eficientes, tijolos ecológicos, 35% moradias sociais com certificado verde" },
-                  { label: "⚡ Fontes de energia", text: "60% aquecimento distrital sustentável, parques solares flutuantes" },
-                  { label: "💧 Uso consciente da água", text: "115 L/pessoa/dia · reaproveitamento de água da chuva em edifícios" },
-                  { label: "☀️ Energias renováveis", text: "Energia eólica offshore + solar, meta 100% renovável até 2040" }
-              ] },
-            { theme: "🚲 Mobilidade, Verde & Políticas Públicas",
-              content: [
-                  { label: "🚲 Mobilidade urbana", text: "767 km de ciclovias · 60% deslocamentos de bike · bondes elétricos" },
-                  { label: "🌳 Áreas verdes", text: "30% do território · Vondelpark · telhados verdes obrigatórios" },
-                  { label: "♻️ Resíduos sólidos", text: "Reciclagem 55% · coleta seletiva porta a porta" },
-                  { label: "🚌 Transporte não poluente", text: "Subsídio bikes elétricas · frota de ônibus 100% elétrica até 2025" },
-                  { label: "📜 Projetos ambientais", text: "Amsterdam Circulair 2050 · portas de reciclagem inteligentes" }
-              ] }
+            { theme: "🌍 Dados Gerais & Indicadores Sociais", content: [{ label: "📍 Localização", text: "Holanda do Norte, região metropolitana de Randstad" },{ label: "👥 População", text: "930.000 habitantes" },{ label: "📊 PIB per capita", text: "€68.500 · economia forte e inovadora" },{ label: "🎓 Escolaridade", text: "Alfabetização 98,7% · 52% ensino superior" },{ label: "❤️ Saúde", text: "Mortalidade infantil 3,2‰ · Expectativa de vida 82,6 anos" }] },
+            { theme: "🏡 Moradia, Energia & Água", content: [{ label: "🏠 Formas de moradia", text: "Apartamentos eficientes, tijolos ecológicos, 35% moradias sociais com certificado verde" },{ label: "⚡ Fontes de energia", text: "60% aquecimento distrital sustentável, parques solares flutuantes" },{ label: "💧 Uso consciente da água", text: "115 L/pessoa/dia · reaproveitamento de água da chuva em edifícios" },{ label: "☀️ Energias renováveis", text: "Energia eólica offshore + solar, meta 100% renovável até 2040" }] },
+            { theme: "🚲 Mobilidade, Verde & Políticas Públicas", content: [{ label: "🚲 Mobilidade urbana", text: "767 km de ciclovias · 60% deslocamentos de bike · bondes elétricos" },{ label: "🌳 Áreas verdes", text: "30% do território · Vondelpark · telhados verdes obrigatórios" },{ label: "♻️ Resíduos sólidos", text: "Reciclagem 55% · coleta seletiva porta a porta" },{ label: "🚌 Transporte não poluente", text: "Subsídio bikes elétricas · frota de ônibus 100% elétrica até 2025" },{ label: "📜 Projetos ambientais", text: "Amsterdam Circulair 2050 · portas de reciclagem inteligentes" }] }
         ],
         "Rotterdam": [
-            { theme: "📈 Economia, População & Indicadores",
-              content: [
-                  { label: "📍 Localização", text: "Holanda do Sul · maior porto da Europa" },
-                  { label: "👥 População", text: "670.000 habitantes" },
-                  { label: "📊 PIB per capita", text: "€60.100 (setor logístico e energético)" },
-                  { label: "🎓 Escolaridade", text: "98,2% alfabetização · 48% ensino superior" },
-                  { label: "❤️ Saúde", text: "Mortalidade infantil 3,5‰ · expectativa 81,9 anos" },
-                  { label: "🏆 IDH", text: "0,938 · IDH muito elevado" }
-              ] },
-            { theme: "🏗️ Habitação Sustentável & Energia",
-              content: [
-                  { label: "🏠 Formas de moradia", text: "Casas flutuantes, waterpleinen, bairros modulares sustentáveis" },
-                  { label: "⚡ Fontes de energia", text: "Hidrogênio verde no Porto, usina de biomassa, solar em telhados" },
-                  { label: "💧 Gestão da água", text: "Praças que armazenam água da chuva, sistema esponja urbana" },
-                  { label: "☀️ Renováveis", text: "Maior parque eólico offshore da Holanda, meta redução CO2 55%" }
-              ] },
-            { theme: "🌿 Inovação Verde e Políticas Climáticas",
-              content: [
-                  { label: "🚲 Mobilidade", text: "Ciclovias segregadas, metrô, carsharing elétrico" },
-                  { label: "🌳 Áreas verdes", text: "Dakpark (parque sobre túnel), jardins verticais, 25% verde" },
-                  { label: "♻️ Resíduos", text: "Waste-to-Energy, coleta subterrânea, reciclagem de plástico dos rios" },
-                  { label: "🚍 Transporte limpo", text: "Ônibus elétricos, porto com energia limpa" },
-                  { label: "📜 Políticas", text: "Rotterdam Climate Initiative · porto Net Zero · Resilient Delta" }
-              ] }
+            { theme: "📈 Economia, População & Indicadores", content: [{ label: "📍 Localização", text: "Holanda do Sul · maior porto da Europa" },{ label: "👥 População", text: "670.000 habitantes" },{ label: "📊 PIB per capita", text: "€60.100 (setor logístico e energético)" },{ label: "🎓 Escolaridade", text: "98,2% alfabetização · 48% ensino superior" },{ label: "❤️ Saúde", text: "Mortalidade infantil 3,5‰ · expectativa 81,9 anos" }] },
+            { theme: "🏗️ Habitação Sustentável & Energia", content: [{ label: "🏠 Formas de moradia", text: "Casas flutuantes, waterpleinen, bairros modulares sustentáveis" },{ label: "⚡ Fontes de energia", text: "Hidrogênio verde no Porto, usina de biomassa, solar em telhados" },{ label: "💧 Gestão da água", text: "Praças que armazenam água da chuva, sistema esponja urbana" },{ label: "☀️ Renováveis", text: "Maior parque eólico offshore da Holanda, meta redução CO2 55%" }] },
+            { theme: "🌿 Inovação Verde e Políticas Climáticas", content: [{ label: "🚲 Mobilidade", text: "Ciclovias segregadas, metrô, carsharing elétrico" },{ label: "🌳 Áreas verdes", text: "Dakpark (parque sobre túnel), jardins verticais, 25% verde" },{ label: "♻️ Resíduos", text: "Waste-to-Energy, coleta subterrânea, reciclagem de plástico dos rios" },{ label: "🚍 Transporte limpo", text: "Ônibus elétricos, porto com energia limpa" },{ label: "📜 Políticas", text: "Rotterdam Climate Initiative · porto Net Zero · Resilient Delta" }] }
         ],
         "Utrecht": [
-            { theme: "📚 Educação, Saúde e Qualidade de Vida",
-              content: [
-                  { label: "📍 Localização", text: "Província de Utrecht, coração da Holanda" },
-                  { label: "👥 População", text: "370.000 habitantes" },
-                  { label: "📊 PIB per capita", text: "€64.200 (centro de serviços e tecnologia)" },
-                  { label: "🎓 Escolaridade", text: "99% alfabetização · 56% nível superior" },
-                  { label: "❤️ Saúde", text: "Mortalidade infantil 2,9‰ · expectativa de vida 83,2 anos" },
-                  { label: "🏆 IDH", text: "0,961 (top 10 mundial entre cidades médias)" }
-              ] },
-            { theme: "🏡 Moradia Passiva e Sustentabilidade Hídrica",
-              content: [
-                  { label: "🏠 Moradia", text: "Passivhaus, moradias compartilhadas sustentáveis, certificação BREEAM" },
-                  { label: "⚡ Energia", text: "Aquecimento geotérmico, biogás, painéis solares em prédios históricos" },
-                  { label: "💧 Água", text: "Campanhas Reduza Consumo, reaproveitamento em fontes urbanas" },
-                  { label: "☀️ Renováveis", text: "Meta 100% renovável 2035; solar em telhados logísticos" }
-              ] },
-            { theme: "🚴 Mobilidade Referência Mundial & Ecologia",
-              content: [
-                  { label: "🚲 Mobilidade", text: "Maior estacionamento de bicicletas do mundo (12.500 vagas), ônibus elétricos" },
-                  { label: "🌳 Áreas verdes", text: "Jardim botânico, telhados verdes em abrigos (abelhas), parques lineares" },
-                  { label: "♻️ Resíduos", text: "Lixeiras inteligentes, taxa de desvio de aterro 72%" },
-                  { label: "🚌 Incentivo", text: "Voucher para bikes, pedágio urbano para poluentes" },
-                  { label: "📜 Projetos", text: "Utrechtse Energie, proibição anúncios combustíveis fósseis" }
-              ] }
+            { theme: "📚 Educação, Saúde e Qualidade de Vida", content: [{ label: "📍 Localização", text: "Província de Utrecht, coração da Holanda" },{ label: "👥 População", text: "370.000 habitantes" },{ label: "📊 PIB per capita", text: "€64.200 (centro de serviços e tecnologia)" },{ label: "🎓 Escolaridade", text: "99% alfabetização · 56% nível superior" },{ label: "❤️ Saúde", text: "Mortalidade infantil 2,9‰ · expectativa de vida 83,2 anos" }] },
+            { theme: "🏡 Moradia Passiva e Sustentabilidade Hídrica", content: [{ label: "🏠 Moradia", text: "Passivhaus, moradias compartilhadas sustentáveis, certificação BREEAM" },{ label: "⚡ Energia", text: "Aquecimento geotérmico, biogás, painéis solares em prédios históricos" },{ label: "💧 Água", text: "Campanhas Reduza Consumo, reaproveitamento em fontes urbanas" },{ label: "☀️ Renováveis", text: "Meta 100% renovável 2035; solar em telhados logísticos" }] },
+            { theme: "🚴 Mobilidade Referência Mundial & Ecologia", content: [{ label: "🚲 Mobilidade", text: "Maior estacionamento de bicicletas do mundo (12.500 vagas), ônibus elétricos" },{ label: "🌳 Áreas verdes", text: "Jardim botânico, telhados verdes em abrigos (abelhas), parques lineares" },{ label: "♻️ Resíduos", text: "Lixeiras inteligentes, taxa de desvio de aterro 72%" },{ label: "🚌 Incentivo", text: "Voucher para bikes, pedágio urbano para poluentes" },{ label: "📜 Projetos", text: "Utrechtse Energie, proibição anúncios combustíveis fósseis" }] }
         ],
         "Haia (Den Haag)": [
-            { theme: "⚖️ Indicadores Sociais e Economia",
-              content: [
-                  { label: "📍 Localização", text: "Holanda do Sul, costa do Mar do Norte" },
-                  { label: "👥 População", text: "560.000 habitantes" },
-                  { label: "📊 PIB per capita", text: "€59.700 (sede governo e organizações internacionais)" },
-                  { label: "🎓 Escolaridade", text: "98,9% alfabetização · 51% superior" },
-                  { label: "❤️ Saúde", text: "Mortalidade infantil 3,1‰ · expectativa 82,1 anos" },
-                  { label: "🏆 IDH", text: "0,944 · alta qualidade de vida" }
-              ] },
-            { theme: "🏘️ Habitação Ecológica & Fontes Limpas",
-              content: [
-                  { label: "🏠 Moradia", text: "Bairros ecológicos Wateringse Veld, certificação energética A obrigatória" },
-                  { label: "⚡ Energia", text: "Protótipo de energia das ondas, aquecimento sustentável em bairros" },
-                  { label: "💧 Água", text: "Medição inteligente de consumo, campanhas em hotéis e escritórios" },
-                  { label: "☀️ Renováveis", text: "Parques eólicos no Mar do Norte + cooperativas solares" }
-              ] },
-            { theme: "🕊️ Neutralidade Carbono e Projetos Verdes",
-              content: [
-                  { label: "🚲 Mobilidade", text: "Bondes elétricos, 400 km de ciclovias, zona de baixa emissão" },
-                  { label: "🌳 Áreas verdes", text: "Dunas costeiras protegidas, Haagse Bos, 28% áreas verdes" },
-                  { label: "♻️ Resíduos", text: "Lixeiras subterrâneas, Repair Café para consertos" },
-                  { label: "🚍 Transporte", text: "Bicicletas compartilhadas, subsídio veículos elétricos" },
-                  { label: "📜 Políticas", text: "The Hague Climate Neutral 2030, fundo inovação verde" }
-              ] }
+            { theme: "⚖️ Indicadores Sociais e Economia", content: [{ label: "📍 Localização", text: "Holanda do Sul, costa do Mar do Norte" },{ label: "👥 População", text: "560.000 habitantes" },{ label: "📊 PIB per capita", text: "€59.700 (sede governo e organizações internacionais)" },{ label: "🎓 Escolaridade", text: "98,9% alfabetização · 51% superior" },{ label: "❤️ Saúde", text: "Mortalidade infantil 3,1‰ · expectativa 82,1 anos" }] },
+            { theme: "🏘️ Habitação Ecológica & Fontes Limpas", content: [{ label: "🏠 Moradia", text: "Bairros ecológicos Wateringse Veld, certificação energética A obrigatória" },{ label: "⚡ Energia", text: "Protótipo de energia das ondas, aquecimento sustentável em bairros" },{ label: "💧 Água", text: "Medição inteligente de consumo, campanhas em hotéis e escritórios" },{ label: "☀️ Renováveis", text: "Parques eólicos no Mar do Norte + cooperativas solares" }] },
+            { theme: "🕊️ Neutralidade Carbono e Projetos Verdes", content: [{ label: "🚲 Mobilidade", text: "Bondes elétricos, 400 km de ciclovias, zona de baixa emissão" },{ label: "🌳 Áreas verdes", text: "Dunas costeiras protegidas, Haagse Bos, 28% áreas verdes" },{ label: "♻️ Resíduos", text: "Lixeiras subterrâneas, Repair Café para consertos" },{ label: "🚍 Transporte", text: "Bicicletas compartilhadas, subsídio veículos elétricos" },{ label: "📜 Políticas", text: "The Hague Climate Neutral 2030, fundo inovação verde" }] }
         ]
     };
 
     const cityNames = ["Amsterdã", "Rotterdam", "Utrecht", "Haia (Den Haag)"];
     
-    // Construir array de slides: [Intro1, slide1, slide2, slide3, Intro2, slide1...]
     let slidesData = [];
     cityNames.forEach(city => {
-        // Slide de introdução da cidade (com botão de áudio)
-        slidesData.push({
-            type: "intro",
-            city: city,
-            curiosity: cityCuriosities[city]
-        });
-        // Slides de conteúdo (3 por cidade)
+        slidesData.push({ type: "intro", city: city, curiosity: cityCuriosities[city] });
         const contentSlides = citiesContent[city];
         contentSlides.forEach((slide, idx) => {
-            slidesData.push({
-                type: "content",
-                city: city,
-                theme: slide.theme,
-                content: slide.content,
-                slideIndex: idx
-            });
+            slidesData.push({ type: "content", city: city, theme: slide.theme, content: slide.content, slideIndex: idx });
         });
+    });
+    
+    // NOVO SLIDE FINAL: Curiosidades da Holanda como país (estilo intro com card mais acima)
+    slidesData.push({
+        type: "intro",
+        city: "Holanda (País)",
+        curiosity: "🇳🇱 A Holanda tem 1/3 do território abaixo do nível do mar, é líder mundial em energia eólica offshore, recicla 79% do lixo e possui a maior densidade de ciclovias do planeta! 🌷🚲💨",
+        specialAlign: true  // marca para alinhar card no topo
     });
 
     let currentSlide = 0;
@@ -805,10 +820,13 @@
     const exitFullscreenBtn = document.getElementById('exitFullscreenBtn');
 
     function getImageForSlide(cityName, slideIdx) {
+        if (cityName === "Holanda (País)") {
+            return "img/todos.png";
+        }
         if (cityImages[cityName] && cityImages[cityName][slideIdx]) {
             return cityImages[cityName][slideIdx];
         }
-        return "https://images.unsplash.com/photo-1568392829325-960e7041754a?w=1200&h=800&fit=crop";
+        return "img/todos.png";
     }
 
     function getIconForLabel(label) {
@@ -834,42 +852,48 @@
             
             if (slide.type === "intro") {
                 slideDiv.classList.add('intro-slide');
+                // Se for o slide especial da Holanda, adiciona classe para alinhar card no topo
+                if (slide.specialAlign) {
+                    slideDiv.classList.add('holanda-special');
+                }
                 const bgImg = getImageForSlide(slide.city, 0);
                 slideDiv.style.backgroundImage = `url('${bgImg}')`;
                 slideDiv.style.backgroundSize = "cover";
                 slideDiv.style.backgroundPosition = "center";
                 
-                // Criar IDs únicos para botão e status
                 const btnId = `audio-btn-${globalIdx}`;
                 const statusId = `audio-status-${globalIdx}`;
+                const hasAudio = cityAudioFiles[slide.city] !== undefined;
                 
                 slideDiv.innerHTML = `
                     <div class="intro-content">
-                        <div class="intro-icon"><i class="fas fa-city"></i></div>
-                        <div class="intro-city-name">${slide.city}</div>
+                        <div class="intro-icon"><i class="fas ${slide.city === 'Holanda (País)' ? 'fa-flag-checkered' : 'fa-city'}"></i></div>
+                        <div class="intro-city-name">${slide.city === 'Holanda (País)' ? '🇳🇱 Curiosidades da Holanda' : slide.city}</div>
                         <div class="intro-curiosity">
                             <i class="fas fa-lightbulb"></i> Curiosidade<br>
                             ${slide.curiosity}
                         </div>
+                        ${hasAudio ? `
                         <button class="audio-btn" id="${btnId}" data-city="${slide.city}">
                             <i class="fas fa-play"></i> Ouvir sobre
                         </button>
                         <div class="audio-status" id="${statusId}"></div>
-                        
+                        ` : ''}
                     </div>
                 `;
                 
-                // Adicionar evento de áudio após inserir no DOM
-                setTimeout(() => {
-                    const btn = document.getElementById(btnId);
-                    const statusSpan = document.getElementById(statusId);
-                    if (btn) {
-                        btn.addEventListener('click', (e) => {
-                            e.stopPropagation();
-                            toggleAudio(slide.city, btn, statusSpan);
-                        });
-                    }
-                }, 10);
+                if (hasAudio) {
+                    setTimeout(() => {
+                        const btn = document.getElementById(btnId);
+                        const statusSpan = document.getElementById(statusId);
+                        if (btn) {
+                            btn.addEventListener('click', (e) => {
+                                e.stopPropagation();
+                                toggleAudio(slide.city, btn, statusSpan);
+                            });
+                        }
+                    }, 10);
+                }
             } else {
                 const imgUrl = getImageForSlide(slide.city, slide.slideIndex);
                 slideDiv.style.backgroundImage = `url('${imgUrl}')`;
@@ -928,7 +952,7 @@
     function updateCounter() {
         const slide = slidesData[currentSlide];
         if (slide.type === "intro") {
-            slideCounter.innerText = `✨ ${slide.city} · Introdução ✨`;
+            slideCounter.innerText = `✨ ${slide.city === 'Holanda (País)' ? 'Holanda · Curiosidades' : slide.city + ' · Introdução'} ✨`;
         } else {
             slideCounter.innerText = `${slide.city} · ${currentSlide+1}/${totalSlides}`;
         }
@@ -948,7 +972,6 @@
         updateCounter();
     }
 
-    // Funções de tela cheia
     function enterFullscreen(element) {
         const elem = element || document.documentElement;
         if (elem.requestFullscreen) elem.requestFullscreen();
@@ -967,7 +990,6 @@
     }
 
     function exitPresentation() {
-        // Parar áudio ao sair
         if (currentAudio) {
             currentAudio.pause();
             currentAudio = null;
@@ -992,7 +1014,6 @@
         setTimeout(() => enterFullscreen(presentationDiv), 100);
     }
 
-    // Eventos
     startBtnMain.addEventListener('click', startPresentation);
     exitFullscreenBtn.addEventListener('click', exitPresentation);
     prevBtn.addEventListener('click', prevSlide);
