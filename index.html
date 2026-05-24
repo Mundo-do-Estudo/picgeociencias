@@ -648,7 +648,7 @@
 <script>
     // ===================== CONFIGURAÇÃO DE ÁUDIO =====================
     const cityAudioFiles = {
-        "Amsterdã": "audio/murilo.ogg",
+        "Amsterdã": "audio/murilo.mp3",
         "Rotterdam": "audio/mikael.ogg",
         "Utrecht": "audio/pedro.ogg",
         "Haia (Den Haag)": "audio/arthur.ogg"
@@ -749,20 +749,7 @@
         }
     }
 
-    // Função para verificar suporte de áudio no celular
-function verificarAudioCelular() {
-    // Testa se o formato OGG é suportado
-    const audio = new Audio();
-    const canPlayOgg = audio.canPlayType('audio/ogg');
-    console.log('Suporte a OGG:', canPlayOgg);
     
-    if (!canPlayOgg || canPlayOgg === '') {
-        console.warn('OGG pode não ser suportado neste navegador. Considere usar MP3.');
-    }
-}
-
-// Chama a função ao carregar a página
-verificarAudioCelular();
 
     // ===================== CONFIGURAÇÃO DE IMAGENS =====================
     const cityImages = {
