@@ -749,6 +749,21 @@
         }
     }
 
+    // Função para verificar suporte de áudio no celular
+function verificarAudioCelular() {
+    // Testa se o formato OGG é suportado
+    const audio = new Audio();
+    const canPlayOgg = audio.canPlayType('audio/ogg');
+    console.log('Suporte a OGG:', canPlayOgg);
+    
+    if (!canPlayOgg || canPlayOgg === '') {
+        console.warn('OGG pode não ser suportado neste navegador. Considere usar MP3.');
+    }
+}
+
+// Chama a função ao carregar a página
+verificarAudioCelular();
+
     // ===================== CONFIGURAÇÃO DE IMAGENS =====================
     const cityImages = {
         "Amsterdã": ["img/murilo.png", "img/murilo2.png", "img/murilo3.png"],
